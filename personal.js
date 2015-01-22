@@ -36,10 +36,21 @@
 				return (Object.prototype.toString.call(t) === "[object Boolean]")?true:false;
 			},
 			//深度克隆对象或数组
-			clone:function(t){
-                var s=Object.prototype.toString.call(t);
-                return (s.indexOf("[object Array]")!=-1||s.indexOf("[object Object]")!=-1)?JSON.parse(JSON.stringify(t)):t;
-			},
+			clone:function(obj){
+                var str, newobj = obj.constructor === Array ? [] : {};
+                if(typeof obj !== 'object'){
+                    return;
+                } else if(window.JSON){
+                    str = JSON.stringify(obj), //系列化对象
+                    newobj = JSON.parse(str); //还原
+                } else {
+                    for(var i in obj){
+                        newobj[i] = typeof obj[i] === 'object' ? 
+                        cloneObj(obj[i]) : obj[i]; 
+                    }
+                }
+                return newobj;
+            },
             now:function(){
                 return (new Date()).getTime();
             },
