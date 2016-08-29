@@ -108,21 +108,28 @@
           return obj;
         },
 
-        //类继承方法（parent：父类对象或者父类方法，initializer:类的构造函数）
-        Class:function(parent,initializer){
+        //类（继承）（组合继承：prototype+call）真正用途：创建的对象，访问方法或者属性，就使用继承的对象的属性或方法
+        /*
+          有2个参数
+            parent是对象，parent作为原型，initializer作为构造函数
+            parent是方法，parent的原型作为自己的原型，initializer仍然是构造函数
+          如果只有1个参数
+            构造函数
+         */
+        Class:function(parent,initializer){//parent是原型prototype或者父类
           if(!initializer){
             initializer=parent;
             parent=function(){};
           }
-          var supper=typeof parent =="function" ? parent.prototype : parent;
+          var supper=typeof parent =="function" ? new parent() : parent;
           var originFunction=function(){
-            typeof initializer == "function" && initializer.apply(this, arguments);
+            typeof initializer == "function" && initializer.apply(this, arguments);//借用构造函数继承
           }
           //originFunction继承自parent
-          originFunction.prototype=supper;
-          originFunction.prototype.constructor=originFunction;
+          originFunction.prototype=supper;//原型链继承
+          originFunction.prototype.constructor=originFunction;//需要再次指回自己，因为原型变了，原型中的构造函数指针也变了，不是指向自己
 
-          //拓展属性方法
+          //拓展属性方法（额外扩充）
           originFunction.extend=originFunction.prototype.extend=function(o){
             for(key in o){
               this[key]=o[key];
