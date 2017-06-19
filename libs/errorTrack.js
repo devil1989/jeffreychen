@@ -21,7 +21,7 @@
 window.ubtTracker = {
     _getKey: function () {
         // 设置对应的key
-        return /ctrip/i.test(window.navigator.userAgent) ?   '_flight_hybird_ctrip' : '_flight_h5';
+        return /jeffreytrip/i.test(window.navigator.userAgent) ?   '_flight_hybird_jeffreytrip' : '_flight_h5';
     },
     _getBelongTo: function () {
         var arr = location.pathname.split('/');
