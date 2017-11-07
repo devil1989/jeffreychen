@@ -451,6 +451,26 @@
     base64:{
         encode:function (e){var r="",i,s,o,u,a,f,l,c=0;e=t(e);while(c<e.length)i=e.charCodeAt(c++),s=e.charCodeAt(c++),o=e.charCodeAt(c++),u=i>>2,a=(i&3)<<4|s>>4,f=(s&15)<<2|o>>6,l=o&63,isNaN(s)?f=l=64:isNaN(o)&&(l=64),r=r+n.charAt(u)+n.charAt(a)+n.charAt(f)+n.charAt(l);return r},
         decode:function (t){var i="",s,o,u,a,f,l,c,h=0;t=t.replace(/[^A-Za-z0-9\+\/\=]/g,"");while(h<t.length)a=n.indexOf(t.charAt(h++)),f=n.indexOf(t.charAt(h++)),l=n.indexOf(t.charAt(h++)),c=n.indexOf(t.charAt(h++)),s=a<<2|f>>4,o=(f&15)<<4|l>>2,u=(l&3)<<6|c,i+=r.fromCharCode(s),l!=64&&(i+=r.fromCharCode(o)),c!=64&&(i+=r.fromCharCode(u));return i=e(i),i}
+    },
+
+    //动态加载js，支持回调
+    loadJs: function (src, callback) {
+        var sc = document.createElement('script');
+        sc.type = 'text/javascript';
+        sc.src = src;
+        if (callback) {
+            if (document.addEventListener) {
+                sc.addEventListener("load", callback, false);
+            } else {
+                sc.onreadystatechange = function () {
+                    if (/loaded|complete/.test(sc.readyState)) {
+                        sc.onreadystatechange = null;
+                        callback();
+                    }
+                };
+            }
+        }
+        document.body.appendChild(sc);
     }
 
   };
