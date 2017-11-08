@@ -1,0 +1,50 @@
+<template id="scroll-tpl">
+    <div class="scroller-wrapper js_wrapper ft14" style="margin:100px auto; display: none;">
+        <div class="scroll-header ft20"> 所在区域 <i class="js_scroll_close scroll-close">x</i></div>
+        <div class="scroll-tab">
+            {{ for(var prop in it.tab) { }}
+                <div class="unit-tab-item js_unit_tab {{= it[prop].isSelected?it.classList['tabActive']:''}}" data-selector="{{= it[prop].selector}}" data-code="{{= it[prop].code}}">{{= it[prop].name}}</div>
+            {{ } }}
+        </div>
+        <div class="scroll-detail-wrapper">
+            <div class="scroll-detail">
+                
+                {{ for(var prop in it.content) { }}
+                    <ul class="scroll-list-list js_scroll_list {{= it.content[prop].selector}} {{= it.content[prop].isSelected?it.classList.listActive:''}}">
+                        {{ for(var key in it.content[prop].content) { }}
+                        <li class="{{= it.content[prop].content[key].isSelected?it.classList.itemActive:''}}" data-code="{{= it.content[prop].content[key].code}}" title="{{= it.content[prop].content[key].name}}">{{= it.content[prop].content[key].name}}</li>
+                        {{ } }}
+                    </ul>
+                {{ } }}
+
+
+                    
+                <!-- <ul class="scroll-list-list scroll-list-list2 js_scroll_list">
+                    <li data-code="10" title="河北省">河南省</li>
+                    <li data-code="10" title="河北省">河南省</li>
+                    <li data-code="10" title="河北省">河南省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河南省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                </ul>
+                <ul class="scroll-list-list scroll-list-list3 js_scroll_list">
+                    <li data-code="10" title="河北省">浙江省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                    <li data-code="10" title="河北省">河北省</li>
+                </ul> -->
+            </div>
+        </div>
+    </div>
+</template>
+    

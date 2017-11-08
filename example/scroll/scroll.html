@@ -4,63 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="../libs/doT.js"></script>
+    <script type="text/javascript" src="../../libs/doT.js"></script>
     <link rel="stylesheet" href="scroll.css">
     <title>Document</title>
 </head>
 <body>
 
-<template>
+<template id="scroll-tpl">
     <div class="scroller-wrapper js_wrapper ft14" style="margin:100px auto; display: none;">
         <div class="scroll-header ft20"> 所在区域 <i class="js_scroll_close scroll-close">x</i></div>
         <div class="scroll-tab">
-            {{ for(var prop in it) { }}
-                <div class="unit-tab-item js_unit_tab unit-tab-active" data-selector="scroll-list-list1" data-code="10">浙江省</div>
-                <div>KEY:{{= prop }}---VALUE:{{= it[prop] }}</div>
-                <div class="unit-tab-item js_unit_tab" data-selector="scroll-list-list2" data-code="20">绍兴市</div>
+            {{ for(var prop in it.tab) { }}
+                <div class="unit-tab-item js_unit_tab {{= it.tab[prop].isSelected?it.classList['tabActive']:''}}" data-selector="{{= it.tab[prop].selector}}" data-code="{{= it.tab[prop].code}}">{{= it.tab[prop].name}}</div>
             {{ } }}
-            
-            
-            <div class="unit-tab-item js_unit_tab" data-selector="scroll-list-list3" data-code="30">上虞区</div>
         </div>
         <div class="scroll-detail-wrapper">
             <div class="scroll-detail">
-                <ul class="scroll-list-list scroll-list-list1 unit-detial-list-active js_scroll_list">
-                    <li class="unit-detial-active" data-code="10" title="河北河北省河北省省">河北河北省河北省省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                </ul>
-                <ul class="scroll-list-list scroll-list-list2 js_scroll_list">
-                    <li data-code="10" title="河北省">河南省</li>
-                    <li data-code="10" title="河北省">河南省</li>
-                    <li data-code="10" title="河北省">河南省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河南省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                </ul>
-                <ul class="scroll-list-list scroll-list-list3 js_scroll_list">
-                    <li data-code="10" title="河北省">浙江省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                    <li data-code="10" title="河北省">河北省</li>
-                </ul>
+                {{ for(var prop in it.content) { }}
+                    <ul class="scroll-list-list js_scroll_list {{= it.content[prop].selector}} {{= it.content[prop].isSelected?it.classList.listActive:''}}">
+                        {{ for(var key in it.content[prop].content) { }}
+                        <li class="{{= it.content[prop].content[key].isSelected?it.classList.itemActive:''}}" data-code="{{= it.content[prop].content[key].code}}" title="{{= it.content[prop].content[key].name}}">{{= it.content[prop].content[key].name}}</li>
+                        {{ } }}
+                    </ul>
+                {{ } }}
             </div>
         </div>
     </div>
 </template>
     
-
-
 <script type="text/javascript" src="scroll.js"></script>
 </body>
 </html>

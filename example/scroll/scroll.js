@@ -11,11 +11,11 @@
 (function(){
      function Scroll(options){
         if(options.data){
+            options.wrapper=options.wrapper||"body";
             this.options=options;
             this.wrapper=options.wrapper;
             this.template=options.template;
             this.data=options.data;
-            options.wrapper=options.wrapper||"body";
             this.init();
         }
      }
@@ -32,14 +32,73 @@
         //转化数据格式
         transData:function(){
             var data=this.data;
-            var targetDat={};
+            var targetData={};
             targetData.classList={
                 tabActive:"unit-tab-active",
                 listActive:"unit-detial-list-active",
                 itemActive:"unit-detial-active"
             };
+
+            //tab数据和其他数据得保持同步更新，然后再渲染内部数据，更新对应数据的选中状态
+            targetData.tab=[{
+                code:"-1",//不为-1或者isSelected为true,就展示;
+                name:"选择省份",
+                parentCode:"",
+                level:"",
+                selector:"scroll-list-list1",
+                isSelected:true
+            },{
+                code:"-1",
+                name:"选择城市",
+                parentCode:"",
+                level:"",
+                selector:"scroll-list-list2",
+                isSelected:false
+            },{
+                code:"-1",
+                name:"选择区域",
+                parentCode:"",
+                level:"",
+                selector:"scroll-list-list3",
+                isSelected:false
+            }];
+
+            targetData.content=[];
+            targetData.content.province={
+                selector:"scroll-list-list1",
+                isSelected:true,
+                content:[{
+                    code:"10",
+                    name:"浙江省",
+                    parentCode:"",
+                    level:"",
+                    isSelected:false
+                }]
+            };
+            targetData.content.city={
+                selector:"scroll-list-list2",
+                isSelected:false,
+                content:[{
+                    code:"11",
+                    name:"绍兴市",
+                    parentCode:"",
+                    level:"",
+                    isSelected:false
+                }]
+            };
+            targetData.content.area={
+                selector:"scroll-list-list3",
+                isSelected:false,
+                content:[{
+                    code:"12",
+                    name:"上虞区",
+                    parentCode:"",
+                    level:"",
+                    isSelected:false
+                }]
+            };
             this.targetData=targetData;
-        }
+        },
 
         switchTab:function(type){
             this.switchTabHeader(type);
@@ -70,7 +129,7 @@
 
         //初始化html
         render:function(){
-            var innerHtml=doT.compile(this.template,this.targetData);
+            var innerHtml=doT.compile(this.template)(this.targetData);
             if($(this.wrapper).find(".js_wrapper").length){//删除原来的
                 $(this.wrapper).find(".js_wrapper").remove();
             }
@@ -98,7 +157,8 @@
      };
 
      var scroll=new Scroll({
-        data:{}
+        data:{},
+        template:$("#scroll-tpl")[0].innerHTML
      });
 
 })();
