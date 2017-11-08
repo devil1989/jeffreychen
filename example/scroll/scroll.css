@@ -34,27 +34,97 @@ html {font-size:62.5%;}
 /*reset.css end*/
 
 
+/*scroll公共*/
+.ft20{
+    font-size:14px;
+}
+.ft14{
+    font-size:14px;
+}
 
-.ft2{
-    font-size:2rem;
+.scroller-wrapper{
+    width: 360px;
+    height: 213px;
+    border-radius: 2px;
+    border: 2px solid #EFEFEF;
+    background-color: #ffffff;
+    color: #666666;
 }
-.ft1{
-    font-size:1rem;
-}
-.ft0{
-    font-size:0.6rem;
-}
+
+/*头部*/
 .scroll-close{
     float: right;
-    height: 3rem;
-    width: 3rem;
+    height: 40px;
+    width: 40px;
     text-align: center;
-    line-height: 3rem;
+    line-height: 40px;
 }
 .scroll-header{
+    display: none;
     overflow: hidden;
     width:100%;
-    height: 3rem;
-    line-height: 3rem;
+    height: 40px;
+    line-height: 40px;
     text-align: center;
+    color: #ababab;
 }
+
+
+/*tab*/
+.scroll-tab{
+    width: 360px;
+    height: 40px;
+    line-height: 40px;
+    overflow: hidden;
+    border-bottom: 1px solid #e6e6e6;
+}
+.unit-tab-item{
+    cursor: pointer;
+    height:37px;
+    width: 68px;
+    line-height: 40px;
+    text-align: center;
+    margin: 0px 12px;
+    float: left;
+}
+.unit-tab-active{
+    border-bottom: 3px solid #49b849;
+}
+.unit-detial-list-active.scroll-list-list{
+    display: block;
+}
+.unit-detial-active{
+    color: #49b849;
+}
+.scroll-list-list{
+    display: none;
+    float: left;
+    width: 360px;
+    height: 172px;
+    overflow: hidden;
+    margin-top:8px;
+    overflow-y: auto;
+}
+.scroll-list-list li{
+    margin: 4px 0px 4px 24px;
+    width: 68px;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    float: left;
+    text-align: left;
+}
+
+.scroll-detail{
+    position: absolute;
+    width: 360px;
+}
+
+.scroll-detail-wrapper{
+    position: relative;
+    width: 360px;
+    height: 172px;
+    overflow: hidden;
+}
+/*内部list*/
+
