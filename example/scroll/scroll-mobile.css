@@ -33,6 +33,7 @@ abbr,acronym { border: 0;
 html {font-size:62.5%;} 
 /*reset.css end*/
 
+/********************************移动端界面 start********************************/
 
 /*scroll公共*/
 .ft20{
@@ -44,7 +45,7 @@ html {font-size:62.5%;}
 .scroll-hide{
     display: none;
 }
-.scroller-wrapper{
+.scroller-wrapper-mobile .scroller-wrapper{
     width: 360px;
     height: 213px;
     border-radius: 2px;
@@ -54,14 +55,14 @@ html {font-size:62.5%;}
 }
 
 /*头部*/
-.scroll-close{
+.scroller-wrapper-mobile .scroll-close{
     float: right;
     height: 40px;
     width: 40px;
     text-align: center;
     line-height: 40px;
 }
-.scroll-header{
+.scroller-wrapper-mobile .scroll-header{
     display: none;
     overflow: hidden;
     width:100%;
@@ -72,14 +73,14 @@ html {font-size:62.5%;}
 }
 
 /*tab*/
-.scroll-tab{
+.scroller-wrapper-mobile .scroll-tab{
     width: 360px;
     height: 40px;
     line-height: 40px;
     overflow: hidden;
     border-bottom: 1px solid #e6e6e6;
 }
-.unit-tab-item{
+.scroller-wrapper-mobile .unit-tab-item{
     cursor: pointer;
     height:37px;
     width: 68px;
@@ -88,16 +89,16 @@ html {font-size:62.5%;}
     margin: 0px 12px;
     float: left;
 }
-.unit-tab-active{
+.scroller-wrapper-mobile .unit-tab-active{
     border-bottom: 3px solid #49b849;
 }
-.unit-detial-list-active.scroll-list-list{
+.scroller-wrapper-mobile .unit-detial-list-active.scroll-list-list{
     display: block;
 }
-.unit-detial-active{
+.scroller-wrapper-mobile .unit-detial-active{
     color: #49b849;
 }
-.scroll-list-list{
+.scroller-wrapper-mobile .scroll-list-list{
     display: none;
     float: left;
     width: 360px;
@@ -106,7 +107,7 @@ html {font-size:62.5%;}
     margin-top:8px;
     overflow-y: auto;
 }
-.scroll-list-list li{
+.scroller-wrapper-mobile .scroll-list-list li{
     margin: 4px 0px 4px 24px;
     width: 68px;
     text-overflow:ellipsis;
@@ -116,16 +117,16 @@ html {font-size:62.5%;}
     text-align: left;
     cursor: pointer;
 }
-.scroll-list-list li:hover{
+.scroller-wrapper-mobile .scroll-list-list li:hover{
     color:#49b849;
 }
 
-.scroll-detail{
+.scroller-wrapper-mobile .scroll-detail{
     position: absolute;
     width: 360px;
 }
 
-.scroll-detail-wrapper{
+.scroller-wrapper-mobile .scroll-detail-wrapper{
     position: relative;
     width: 360px;
     height: 172px;
@@ -135,3 +136,4 @@ html {font-size:62.5%;}
 
 
 
+/********************************移动端界面 end********************************/

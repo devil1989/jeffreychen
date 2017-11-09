@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../../libs/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="../../libs/doT.js"></script>
     <link rel="stylesheet" href="scroll.css">
     <title>Document</title>
@@ -11,19 +11,20 @@
 <body>
 
 <template id="scroll-tpl">
-    <div class="scroller-wrapper js_wrapper ft14" style="margin:100px auto; display: none;">
+    <div class="scroller-wrapper js_wrapper ft14 " style="margin:100px auto; display: none;">
         <div class="scroll-header ft20"> 所在区域 <i class="js_scroll_close scroll-close">x</i></div>
         <div class="scroll-tab">
             {{ for(var prop in it.tab) { }}
-                <div class="unit-tab-item js_unit_tab {{= it.tab[prop].isSelected?it.classList['tabActive']:''}}" data-selector="{{= it.tab[prop].selector}}" data-code="{{= it.tab[prop].code}}">{{= it.tab[prop].name}}</div>
+                <div class="unit-tab-item js_unit_tab {{= it.tab[prop].needShow?'':'scroll-hide'}} 
+                {{= it.tab[prop].isSelected?it.classList['tabActive']:''}}" data-level="{{= it.tab[prop].level}}" title="{{= it.tab[prop].name}}" data-parent-code="{{= it.tab[prop].parentCode}}" data-code="{{= it.tab[prop].code}}" >{{= it.tab[prop].name}}</div>
             {{ } }}
         </div>
         <div class="scroll-detail-wrapper">
             <div class="scroll-detail">
                 {{ for(var prop in it.content) { }}
-                    <ul class="scroll-list-list js_scroll_list {{= it.content[prop].selector}} {{= it.content[prop].isSelected?it.classList.listActive:''}}">
-                        {{ for(var key in it.content[prop].content) { }}
-                        <li class="{{= it.content[prop].content[key].isSelected?it.classList.itemActive:''}}" data-code="{{= it.content[prop].content[key].code}}" title="{{= it.content[prop].content[key].name}}">{{= it.content[prop].content[key].name}}</li>
+                    <ul class="scroll-list-list js_scroll_list  {{= it.content[prop].isSelected?it.classList.listActive:''}}">
+                        {{var item=it.content[prop].content; for(var key in item ) { }}
+                        <li class="{{= item[key].isSelected?it.classList.itemActive:''}}" data-code="{{= item[key].code}}" data-parent-code="{{= item[key].parentCode}}" data-level="{{= item[key].level}}" title="{{= item[key].name}}">{{= item[key].name}}</li>
                         {{ } }}
                     </ul>
                 {{ } }}
@@ -31,7 +32,6 @@
         </div>
     </div>
 </template>
-    
 <script type="text/javascript" src="scroll.js"></script>
 </body>
 </html>
