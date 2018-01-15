@@ -1,0 +1,113 @@
+/*（内部块元素宽高可以不确定）块元素水平垂直居中方法1*/
+.wrapper{
+	float: left;
+	height: 400px;
+	width: 400px;
+	background: #f00;
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+}
+.inner{
+	height: 200px;
+	width: 200px;
+
+	/*core*/
+	background-color: #fff;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+
+.wrapper1{
+	float: left;
+	height: 400px;
+	width: 400px;
+	background: #f00;
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+}
+.inner1{
+	height: 200px;
+	width: 200px;
+	background-color: #fff;
+
+	/*core*/
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -100px;
+	margin-left: -100px;
+}
+
+
+
+.wrapper2{
+	height: 400px;
+	width: 400px;
+	background: #f00;
+	margin: 10px;
+
+	/*core*/
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+}
+.inner2{
+	height: 200px;
+	width: 200px;
+	background-color: #fff;
+}
+
+
+.wrapper3{
+	height: 400px;
+	width: 400px;
+	background: #456321;
+	margin: 10px;
+    float: left;
+    text-align:center;
+}
+.wrapper3 span{
+    display: inline-block;
+    vertical-align: middle;
+    content: '';
+    height: 100%;
+}
+.inner3{
+	height: 200px;
+	width: 200px;
+	background-color: #fff;
+    margin: 0px auto;
+
+	/*core*/
+	max-width: 100%;
+	display: inline-block;
+    vertical-align: middle;
+}
+
+
+.wrapper4{
+    height: 400px;
+    width: 400px;
+    background:block;
+    margin: 10px; 
+
+    /*core*/
+    display: table;
+}
+.inner4{
+    height: 200px;
+    width: 200px;
+    background-color: #fff;
+    margin: 0px auto;
+
+    /*core*/
+    max-width: 100%;
+    display: table-cell;
+    vertical-align: middle;
+}
