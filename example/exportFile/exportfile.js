@@ -66,6 +66,13 @@
 // 	document.body.removeChild(element);
 // }
 
+
+/*
+ time:2018/01/19
+ author:jiajiechen
+ description:export the excel file(.cvs)
+ */
+
 //导出excel（.csv文件）
 function ExportFile(opts){
 	this.name = opts.name||this.getDefaultName();
@@ -137,7 +144,7 @@ ExportFile.prototype={
           oWin.close();
         }
 		else if (isIE&&ver > 10&&ver < 12) {
-			var BOM = "\uFEFF";
+			var BOM = "\ufeff";
 			var csvData = new Blob([BOM + encodeURIComponent(text)], {//encodeURIComponent转化可以正确解析内容
 				type: 'text/csv'
 			});
@@ -159,18 +166,19 @@ ExportFile.prototype={
 		}
 	},
 	getUrl: function(text) {
-		var BOM = "\uFEFF";
+		var BOM = "\ufeff";
 		if (window.Blob && window.URL && window.URL.createObjectURL) {
-			var csvData = new Blob([BOM + encodeURIComponent(text)], {
-				type: 'text/csv'
+			var csvData = new Blob([BOM + text], {
+				type: 'text/csv,charset=UTF-8'
 			});
 			return URL.createObjectURL(csvData);
 		} else {
-			return 'data:attachment/csv;charset=utf-8,' + BOM + encodeURIComponent(text);
+			return 'data:attachment/csv;charset=UTF-8,' + BOM + encodeURIComponent(text);
 		}
 	}
 
 }
+
 
 new ExportFile({
 	// name:"jeffrey",

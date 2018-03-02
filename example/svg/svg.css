@@ -1,0 +1,26 @@
+.svg-container{
+	height: 1000px;
+}
+.svg-animate{/*svg虚线设置*/
+	animation: dash 1s linear;
+
+	/*这是让虚线里的每个小线段长度为728px，因为想要展示完整的曲线，但不知道曲线长度，所以需要在js中设置stroke-dasharray*/
+	/*stroke-dasharray:728;*/
+}
+
+@keyframes example {
+  from{
+  	stroke-dashoffset: 728;/*dash模式到路径开始的偏移距离,其实就是左加右减，728表示dash线初始位置是向左平移728单位*/
+  }
+  to {
+    stroke-dashoffset: 0;/*dash模式到路径开始的偏移距离,其实就是左加右减，0表示dash线初始位置是向左平移0单位,也就是svg元素最初的样子*/
+  }
+}
+
+/*animation动画*/
+@keyframes dash {
+  /*因为长度不确定，所以初始值需要在js中设置*/
+  100% {
+    stroke-dashoffset: 0px;/*dash模式到路径开始的偏移距离,其实就是左加右减，0表示dash线初始位置是向左平移0单位,也就是svg元素最初的样子*/
+  }
+}

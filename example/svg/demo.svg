@@ -1,0 +1,46 @@
+
+<!-- version 属性可定义所使用的 SVG 版本，xmlns 属性可定义 SVG 命名空间 -->
+<svg version="1.1" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+
+	<!--rect是矩形，rx和ry表示圆角 -->
+	<!-- <rect x="100" y="50" width="50" height="50" fill="#ff0000" stroke="#000" stroke-width="10" opacity="0.5" rx="10" ry="10">jeffrey</rect> -->
+
+	<!-- <circle cx="50" cy="50" r="40" stroke="#000000" stroke-width="1" fill="#FF0000"></circle> -->
+	
+	<!-- rx 属性定义水平半径,ry 属性定义垂直半径 ;cx,cy是原点-->
+	<!-- <ellipse cx="400" cy="200" rx="100" ry="50" stroke-width="1" fill="#FF0000" stroke="#000000" ></ellipse> -->
+
+	<!-- <line x1="500" y1="10" x2="100" y2="100" stroke-width="1" stroke="#000"></line> -->
+	
+	<!-- 多边形，大于等于三条边的图像 -->
+	<!-- <polygon points="220,100 300,210 170,250 123,234" stroke="#000" fill="#FF0000"></polygon> -->
+	
+	<!-- 折线，可以不填充任何东西，也可以填充 -->
+	<!-- <polyline points="0,0 0,20 20,20 20,40 40,40 40,60"  stroke="#000" fill="none"></polyline> -->
+	
+	<!-- 路径，可以实现上面所有的功能，但是一般只是写不规则的功能，通常使用svg编辑器（在线编辑器地址http://editor.method.ac/）来写path，直接生成对应的图像 -->
+	<!-- 专业svg编辑工具：SVGDeveloper -->
+	<path class="svg-path"  stroke="#ff0000" stroke-width="2" d="M19,79.40361445783132L85.08333333333333,77.43373493975903L151.16666666666666,72.4578313253012L217.25,70.37349397590361L283.3333333333333,70.42771084337349L349.41666666666663,63.066265060240966L415.5,53.16265060240963L481.5833333333333,51.421686746987945L547.6666666666666,49.46385542168676L613.75,49.15662650602408L679.8333333333333,46.481927710843365L745.9166666666666,45.64457831325302" fill="none" ></path>
+
+	<!-- svg编辑器工具集合：  https://www.linuxidc.com/Linux/2015-08/121933.htm -->
+</svg>
+
+<!-- 如何把svg嵌入html
+1.<img>链接方式引用 :最简单
+2.<a>链接方式引用
+3.CSS的background属性引用
+4.<embed> :推荐
+5.<object>
+6.<iframe> -->
+
+<!-- 形状元素
+矩形 <rect>
+圆形 <circle>
+椭圆 <ellipse>
+线 <line>
+折线 <polyline>
+多边形 <polygon>
+路径 <path> -->
+
+
+<!-- 动画交互，svg -->
