@@ -13,7 +13,7 @@
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="./svg.css" />
 </head>
-<body >
+<body style="background-color: #e3e3e3">
 	<!-- pluginspage表示下载插件的url -->
 	<!-- embed标签支持使用脚本，一般都用这个标签来嵌入svg -->
 	<!-- <embed class="svg-container" src="./demo.svg" type="image/svg+xml" pluginspage="http://www.adobe.com/svg/viewer/install/" height="100%" width="100%" /> -->
@@ -24,6 +24,8 @@
 		<!-- <rect x="100" y="50" width="50" height="50" fill="#ff0000" stroke="#000" stroke-width="10" opacity="0.5" rx="10" ry="10">jeffrey</rect> -->
 		
 		<defs>
+
+			<!-- 滤镜制作高斯模糊 -->
 			<filter id="gauss">
 				<feGaussianBlur in="SourceGraphic" stdDeviation="2" ></feGaussianBlur>
 			</filter>
@@ -40,12 +42,63 @@
 			<radialGradient  id="radial" cx="20%" cy="60%" r="50%" fx="20%" fy="20%" >
 				<!-- stop用于定义渐变颜色，可以多个，按照固定的辐射方向和颜色,慢慢渐变过去 -->
 				<stop offset="0%" style="stop-color:rgb(0,34,255);stop-opacity:opacity:1"></stop><!-- 第一个stop的颜色是cx,cy点的颜色 -->
-				<!-- <stop offset="100%" style="stop-color:rgb(100,255,0);stop-opacity:opacity:1"></stop><!-- 最后一个stop的颜色是fx,fy点的颜色 --> -->
+				<stop offset="100%" style="stop-color:rgb(100,255,0);stop-opacity:opacity:1"></stop><!-- 最后一个stop的颜色是fx,fy点的颜色 -->
 			</radialGradient >
+			
+			<!-- 滤镜制作阴影 -->
+			<filter id="f1" x="0" y="0" width="200%" height="200%">
 
+				<!-- in="SourceGraphic"这个部分定义了由整个图像创建效果 ，result表示输出值，可以在其他滤镜中作为in来输入-->			
+				<feOffset result="offOut" in="SourceAlpha" dx="20" dy="20" /><!-- 偏移只能定义一个 ,定义多个无效，用于制作偏移的阴影-->
+				<feOffset result="offOut2" in="SourceAlpha" dx="50" dy="70" />
+				<feOffset result="offOut3" in="SourceGraphic" dx="60" dy="40" />
+				<feGaussianBlur result="gauss" in="offOut" stdDeviation="8" ></feGaussianBlur><!-- 高斯模糊 -->
+				<!-- SVG滤镜。相对其当前位置移动图像，并定义偏移量，dx是x轴平移 -->
+				
+
+				<!-- 融合：可以使用多个元素融合，但是他和feBlend滤镜只能同时生效一个，后面的生效 -->
+				<feMerge>
+					<feMergeNode in="gauss" />
+            		<feMergeNode in="offOut2" />
+            		<feMergeNode in="offOut3" />
+				</feMerge>
+
+
+
+
+				<!-- in="标识为给定的滤镜原始输入：SourceGraphic | SourceAlpha | BackgroundImage | BackgroundAlpha | FillPaint | StrokePaint  -->			
+				<!-- in2="标识为给定的滤镜混合值：SourceGraphic | SourceAlpha | BackgroundImage | BackgroundAlpha | FillPaint | StrokePaint  -->	
+					<!-- 
+			        SourceGraphic：这个值代表使用当前的图形元素作为操作的输入,就是源图形。
+					SourceAlpha：这个值代表使用当前图形元素的Alpha值作为操作的输入：就是黑色图像。
+					BackgroundImage：这个值代表使用当前的背景截图作为操作的输入。
+					BackgroundAlpha：这个值代表使用当前的背景截图的Alpha值作为操作的输入。
+					FillPaint：这个值使用当前图形元素的fill属性的值作为操作的输入。
+					StrokePaint：这个值使用当前图形元素的stroke属性的值作为操作的输入。 
+					-->
+
+				<!-- mode="图像混合模式：normal|multiply|screen|darken|lighten" -->	
+					<!-- 
+					normal：正常混合，in2的z-index比in小
+					multiply： 正片叠底;混合了前景和背景的颜色，最终颜色比原先的都暗
+					screen: 滤色；把前景和背景图的颜色先反过来，然后混合
+					darken:变暗 （暗的在前）
+					lighten:变亮 （亮的在前）
+					-->
+				<!-- （in="SourceGraphic" ）表示按照原图画一个图像，（in2="gauss"）表示按照gauss【就是上面的feGaussianBlur result="gauss"】画一个图像，然后混合 -->
+				<feBlend in="SourceGraphic" in2="gauss" mode="normal" />
+				<!-- 使用不同的混合模式把两个对象合成在一起 -->
+
+
+				<!-- feColorMatrix ： 暂时不讲，得先去复习大学教的矩阵运算-->
+			</filter>
 		</defs>
+		
 
-		<!-- 滤镜 -->
+		<!-- 阴影[其实就是滤镜效果],滤镜只允许在一个位置画一个图像，相同名称的滤镜，后面的会把前面的盖掉 -->
+		<circle cx="500" cy="500" r="40" stroke="#000000" stroke-width="1" fill="#FF0000" filter="url(#f1)"></circle>
+		
+		<!-- 滤镜，使用滤镜的时候 -->
 		<circle cx="50" cy="50" r="40" stroke="#000000" stroke-width="1" fill="#FF0000" filter="url(#gauss)"></circle>
 		
 		<!--线性渐变： rx 属性定义水平半径,ry 属性定义垂直半径 ;cx,cy是原点-->
@@ -64,11 +117,12 @@
 		
 		<!-- 路径，可以实现上面所有的功能，但是一般只是写不规则的功能，通常使用svg编辑器（在线编辑器地址http://editor.method.ac/）来写path，直接生成对应的图像 -->
 		<!-- 专业svg编辑工具：SVGDeveloper -->
-		<path class="svg-path svg-animate"  stroke="#ff0000" stroke-width="2" d="M19,79.40361445783132L85.08333333333333,77.43373493975903L151.16666666666666,72.4578313253012L217.25,70.37349397590361L283.3333333333333,70.42771084337349L349.41666666666663,63.066265060240966L415.5,53.16265060240963L481.5833333333333,51.421686746987945L547.6666666666666,49.46385542168676L613.75,49.15662650602408L679.8333333333333,46.481927710843365L745.9166666666666,45.64457831325302" fill="none" ></path>
+		<!-- <path class="svg-path svg-animate"  stroke="#ff0000" stroke-width="2" d="M19,79.40361445783132L85.08333333333333,77.43373493975903L151.16666666666666,72.4578313253012L217.25,70.37349397590361L283.3333333333333,70.42771084337349L349.41666666666663,63.066265060240966L415.5,53.16265060240963L481.5833333333333,51.421686746987945L547.6666666666666,49.46385542168676L613.75,49.15662650602408L679.8333333333333,46.481927710843365L745.9166666666666,45.64457831325302" fill="none" ></path> -->
 
 		<!-- svg编辑器工具集合：  https://www.linuxidc.com/Linux/2015-08/121933.htm -->
 	</svg>
-
 </body>
 <script type="text/javascript" src="./svg.js"></script>
 </html>
+
+

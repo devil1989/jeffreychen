@@ -1,9 +1,11 @@
+
+//PPT大纲
 1.svg定义
 	可伸缩矢量图形 (Scalable Vector Graphics)
 	用来定义用于网络的基于矢量的图形
 	使用 XML 格式定义图形
 
-2.svg优势 ：
+2.svg优势 ：（和canvas，VML比较）
 	图像在放大或改变尺寸的情况下其图形质量不会有所损失
 	是万维网联盟的标准
 	与诸如 DOM 和 XSL 之类的 W3C 标准是一个整体
@@ -13,8 +15,47 @@
 	浏览器兼容性好（IE需要装插件）
 
 3.svg解决问题，使用场景
-4.svg和canvas
+4.svg常用js库：Snap.SVG.js ； d3.js
 5.如何使用svg （demo）
+	5.1 各个基础图像，基本语法 （SMIL不讲，据说以后chrome浏览器不支持了）
+	5.2 滤镜效果
+	5.3 渐变效果
+	5.4 svg支持的DOM方法 ：unfinish （支持事件）
+	5.5 svg结合数据画图（包含动画）：unfinish
+
+
+
+//事件
+事件：e
+当前事件的svg对象：e.target ==  e.getTarget()[和其他html元素事件一样]
+svg的DOM对象：e.target.ownerDocument == e.target.getOwnerDocument()
+
+//DOM操作: DOM层级相关，所有的DOM都继承Node类（nodeElement）
+getElementById
+getElementsByTagName
+getAttribute
+setAttribute
+createElement
+removeChild
+appendChild
+replaceChild
+insertBefore
+cloneNode
+
+
+//属性
+firstChild
+childNodes
+lastChild
+
+//NodeType，NodeName
+1 ELEMENT_NODE
+2 ATTRIBUTE_NODE
+3 TEXT_NODE
+
+
+
+
 
 
 
@@ -22,8 +63,9 @@ svg动画：（软件制作svg动画也可以）
 	css3 （transition，animation）（css3产生动画）
 		offset-path：亦可以要让一个元素按照不规则路径进行运动，只是兼容性差一些//http://www.zhangxinxu.com/wordpress/2017/03/offset-path-css-animation/查看
 
-	svg动画库：Snap.SVG.js（相对简单些的框架【编辑功能比较重】）；d3.js（这个比较复杂，它同时也支持canvas画图，兼容ie9+【数据呈现和画图】：压缩后70多k，很值得学，有空再说吧）
+	svg的js库：Snap.SVG.js（相对简单些的框架【编辑功能比较重】）；d3.js（这个比较复杂，它同时也支持canvas画图，兼容ie9+【数据呈现和画图】：压缩后70多k，很值得学，有空再说吧）
 
+	//折线动画
 	SMIL（同步多媒体集成语言）动画：animate，set等动画描述元素 （不需要css和js，直接产生动画：风险是后续浏览器可能不支持）【<=ie11不支持，opera不支持】 ：不看了，以后都不支持了
 		他最大的特点是：要让一个元素按照不规则路径进行运动
 	
@@ -47,3 +89,4 @@ Canvas（适应场景：在硬件加速情况下，浏览器会将绘图命令�
 //svg和vml
 SVG和VML都是基于XML的可用来描述矢量图形的标记语言
 SVG是综合了VML的优点后推出的，是国际标准，它比VML具有更多的优点，也有更广阔的前景。但由于VML有IE的支持，而SVG要想在浏览器中显示就需要安装插件，在这一点上，VML优于SVG。 
+
