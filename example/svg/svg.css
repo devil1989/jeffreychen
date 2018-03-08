@@ -2,7 +2,7 @@
 	height: 1000px;
 }
 .svg-animate{/*svg虚线设置*/
-	animation: dash 1s linear;
+	animation: dash 4s linear;
 
 	/*这是让虚线里的每个小线段长度为728px，因为想要展示完整的曲线，但不知道曲线长度，所以需要在js中设置stroke-dasharray*/
 	/*stroke-dasharray:728;*/
