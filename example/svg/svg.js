@@ -106,13 +106,13 @@ Chart.prototype={
                 }
             ],
             related: { //y轴平移，左加右减；x轴平移，上加下减
-                x: -40,
+                x: -80,
                 y: -this.getSize(options.wrapper, "height")*0.5
             },
             size: { //坐标系的x轴和y轴的长度（备注，x轴不展示负轴）
                 // x: 360, //x轴正半轴就占了全长
                 // y: 180 //上下各一半长度
-                x: this.getSize(options.wrapper, "width")-40, //x轴正半轴就占了全长
+                x: this.getSize(options.wrapper, "width")-100, //x轴正半轴就占了全长
                 y: this.getSize(options.wrapper, "height")*0.9 //上下各一半长度
             },
             pointNum: { //x轴和y轴的点数，比如本次图表，要求最近一周的数据，所以x轴一共7个点，y轴
@@ -121,14 +121,15 @@ Chart.prototype={
             },
             relatedText: { //x轴和y轴上的点的文本偏移量
                 x: {
-                    x: 16, //x轴的文本向左偏移
-                    y: 16 //x轴的文本向下偏移
+                    x: -22, //x轴的文本向左偏移
+                    y: 30 //x轴的文本向下偏移
                 },
                 y: {
-                    x: 10, //y轴的文本向左偏移
-                    y: -4 //y轴的文本向下偏移
+                    x: 60, //y轴的文本向左偏移
+                    y: 5 //y轴的文本向下偏移
                 }
             },
+            circleRadius:5,//画出来的圆的半径
             markHeight: 12,//垂直于x轴的刻度小短线的长度，可调
             // arrX:[{//坐标系上的各个均分点，
             //     x:0,
@@ -248,6 +249,7 @@ Chart.prototype={
         var ele;
         this.options.wrapper.innerHTML="";
         this.createCoordinate();
+        this.createText();
         this.createPath();
     },
 
@@ -259,7 +261,50 @@ Chart.prototype={
             d:this.getPathData(this.options.data)//path元素的元数据
         });
         this.options.wrapper.appendChild(ele);
-        this.options.afterDrawing&&this.options.afterDrawing(ele);//添加画完以后的生命周期函数
+        this.options.afterDrawing&&this.options.afterDrawing(ele,this.createCircle.bind(this));//添加画完以后的生命周期函数
+    },
+
+    //画圆形
+    createCircle:function(scope){
+        var str="",self=scope||this;
+        this.options.data.forEach(function(unit,idx){
+            var ele=self.create({
+                type: "circle",
+                cx:unit.x,
+                cy:unit.y,
+                r:self.options.circleRadius,
+                stroke:"#000"
+            });
+            ele.innerHTML=unit.text;
+            self.options.wrapper.appendChild(ele);
+        });
+    },
+
+    //画坐标系中的文本
+    createText:function(){
+        var str="",self=this,origin=this.getOrigin();
+        this.options.arrX = this.getLineArray(origin, "x"); //x轴上的各个点
+        this.options.arrY = this.getLineArray(origin, "y"); //y轴上的各个点
+        this.options.arrX.forEach(function(unit,idx){
+            var ele=self.create({
+                type: "text",
+                x:unit.x+self.options.relatedText.x.x,
+                y:unit.y+self.options.relatedText.x.y,
+                fill:self.options.data[idx].date
+            });
+            ele.innerHTML=unit.text;
+            self.options.wrapper.appendChild(ele);
+        });
+        this.options.arrY.reverse().forEach(function(unit,idx){
+            var ele=self.create({
+                type: "text",
+                x:unit.x-self.options.relatedText.y.x,
+                y:unit.y+self.options.relatedText.y.y,
+                fill:unit.text
+            });
+            ele.innerHTML=unit.text;
+            self.options.wrapper.appendChild(ele);
+        });
     },
 
 
@@ -280,6 +325,7 @@ Chart.prototype={
     getCoordinateData:function(){
         return this.getCoordinateLineData()+this.getCoordinatePointerData()+this.getCoordinateArrowData();
     },
+
 
     //坐标系x，y轴path的数据
     getCoordinateLineData:function(){
@@ -529,9 +575,10 @@ new Chart({
     wrapper:document.querySelector(".svg-container"),
 
     //画完以后的接口
-    afterDrawing:function(ele){
+    afterDrawing:function(ele,callback){
         ele.addEventListener("animationend",function(e){
          ele.setAttribute("stroke-dashoffset",0);//animation的话结束的偏移量设置为0有bug，曲线会消失,所以得重新设置
+         callback();
         });
         var str=ele.getAttribute("class")||" ";
         ele.setAttribute("class",str+"svg-animate");
