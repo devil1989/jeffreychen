@@ -76,6 +76,26 @@
       }
       return w;
     },
+
+    //通过事件获取鼠标位置[position是作为事件句柄]
+    position:function(event){
+      return {
+        //全兼容
+        clientX:event.clientX,//相对于浏览器可视窗口（不包括浏览器上面的地址栏，收藏栏等非展示区域）【ie和火狐下这clientX和clientY始终大2px】
+        clientY:event.clientY,//同上
+        screenX:event.screenX,//相对于桌面显示屏的X轴上的距离
+        screenY:event.screenY,//同上
+      }
+    },
+
+    //获取元素所在相对位置
+    elePosition:function(ele){
+      //offsetTop：ele相对于position为relative或者absolute元素的Y轴距离
+      //offsetLeft：ele元素相对于position为relative或者absolute元素的X轴距离
+      //获取ele元素相对于文档的距离，可以通过无限循环offsetParent来获取最顶部的body，这样就可以获取ele相对于body的位置
+      //ele的父元素也可以通过上面的步骤获取相对于body的位置，这样，父元素和子元素距离相减，就可以获取子元素与父元素的相对位置
+    },
+
     parseXML: function(data, xml, tmp) {
       if (window.DOMParser) { // Standard 标准XML解析器
         tmp = new DOMParser();

@@ -1,37 +1,165 @@
+	<!-- 注意，svg的css样式得写在这里，因为是外链svg文件，写在html的css用于外链svg
+	如果是内链svg，那么久方便多了，css也可以放在html里面 -->
 
-<!-- version 属性可定义所使用的 SVG 版本，xmlns 属性可定义 SVG 命名空间 -->
-<svg version="1.1" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+	<?xml-stylesheet href="./svg.css" type="text/css"?>
 
-	<!--rect是矩形，rx和ry表示圆角 -->
-	<!-- <rect x="100" y="50" width="50" height="50" fill="#ff0000" stroke="#000" stroke-width="10" opacity="0.5" rx="10" ry="10">jeffrey</rect> -->
 
-	<!-- <circle cx="50" cy="50" r="40" stroke="#000000" stroke-width="1" fill="#FF0000"></circle> -->
+	<svg class="svg-container" version="1.1" width="100%"  xmlns="http://www.w3.org/2000/svg">
+		<!--rect是矩形，rx和ry表示圆角 -->
+		<!-- <rect x="100" y="50" width="50" height="50" fill="#ff0000" stroke="#000" stroke-width="10" opacity="0.5" rx="10" ry="10">jeffrey</rect> -->
+		
+		<!-- defs:引用的元素容器,让元素可以重复使用 -->
+		<defs>
+
+			<!-- 滤镜：制作高斯模糊 -->
+			<filter id="gauss">
+				<!-- stdDeviation:模糊度 -->
+				<feGaussianBlur in="SourceGraphic" stdDeviation="2" ></feGaussianBlur>
+			</filter>
+
+
+			<!-- 滤镜：图像合成+平移 -->
+			<filter id="f1" x="0" y="0" width="200%" height="200%">
+
+				<!-- in="SourceGraphic"这个部分定义了由整个图像创建效果 ，result表示输出值，可以在其他滤镜中作为in来输入-->			
+				<feOffset result="offOut" in="SourceAlpha" dx="20" dy="20" /> <!-- 偏移只能定义一个 ,定义多个无效，用于制作偏移的阴影-->
+				<feOffset result="offOut2" in="SourceAlpha" dx="50" dy="70" />
+				<feOffset result="offOut3" in="SourceGraphic" dx="60" dy="40" />
+				<feGaussianBlur result="gauss" in="offOut" stdDeviation="8" ></feGaussianBlur><!-- 高斯模糊 -->
+				<!-- SVG滤镜。相对其当前位置移动图像，并定义偏移量，dx是x轴平移 -->
+				
+
+				<!-- 融合：可以使用多个元素融合，但是他和feBlend滤镜只能同时生效一个，后面的生效 -->
+				<feMerge result="s">
+					<feMergeNode in="offOut" />
+            		<feMergeNode in="offOut2" />
+            		<feMergeNode in="offOut3" />
+				</feMerge>
+				
+
+
+
+
+				<!-- in="标识为给定的滤镜原始输入：SourceGraphic | SourceAlpha | BackgroundImage | BackgroundAlpha | FillPaint | StrokePaint  -->			
+				<!-- in2="标识为给定的滤镜混合值：SourceGraphic | SourceAlpha | BackgroundImage | BackgroundAlpha | FillPaint | StrokePaint  -->	
+					<!-- 
+			        SourceGraphic ：这个值代表使用当前的图形元素作为操作的输入,就是源图形。
+					SourceAlpha ：这个值代表使用当前图形元素的Alpha值作为操作的输入：就是黑色图像。
+					BackgroundImage ：这个值代表使用当前的背景截图作为操作的输入。
+					BackgroundAlpha ：这个值代表使用当前的背景截图的Alpha值作为操作的输入。
+					FillPaint ：这个值使用当前图形元素的fill属性的值作为操作的输入。
+					StrokePaint ：这个值使用当前图形元素的stroke属性的值作为操作的输入。 
+					-->
+
+				<!-- mode="图像混合模式：normal|multiply|screen|darken|lighten" -->	
+					<!-- 
+					normal：正常混合，in2的z-index比in小
+					multiply： 正片叠底;混合了前景和背景的颜色，最终颜色比原先的都暗
+					screen: 滤色；把前景和背景图的颜色先反过来，然后混合
+					darken:变暗 （暗的在前）
+					lighten:变亮 （亮的在前）
+					-->
+				<!-- （in="SourceGraphic" ）表示按照原图画一个图像，（in2="gauss"）表示按照gauss【就是上面的feGaussianBlur result="gauss"】画一个图像，然后混合 -->
+				<feBlend result="a" in="SourceGraphic" in2="gauss" mode="normal" />
+			</filter>
+
+
+			<!-- x1、x2、y1、y2 属性可定义渐变的开始和结束位置,只能2个点,x1="0%" y1="50%"  x2="100%" y2="50%"是横向渐变 -->
+			<linearGradient id="linear" x1="0%" y1="50%"  x2="100%" y2="50%">
+				<!-- stop用于定义渐变颜色，可以多个，慢慢渐变过去 -->
+				<stop offset="0%" style="stop-color:rgb(0,34,255) ; stop-opacity:1"></stop>
+				<stop offset="50%" style="stop-color:rgb(255,0,170) ; stop-opacity:opacity:1"></stop>
+				<stop offset="100%" style="stop-color:rgb(100,255,0) ; stop-opacity:opacity:1"></stop>
+			</linearGradient>
+			
+			<!-- cx,cy和r属性定义了辐射的最大圆(外圈),fx和fy属性定义了辐射的焦点 -->
+			<radialGradient  id="radial" cx="50%" cy="50%" r="14%" fx="35%" fy="50%" >
+				<!-- stop用于定义渐变颜色，可以多个，按照固定的辐射方向和颜色,慢慢渐变过去 -->
+				<stop offset="0%" style="stop-color:rgb(0,0,0,0);stop-opacity:opacity:1"></stop><!-- 第一个stop的颜色是cx,cy点的颜色 -->
+				<stop offset="100%" style="stop-color:#000;stop-opacity:opacity:1"></stop><!-- 最后一个stop的颜色是fx,fy点的颜色 -->
+			</radialGradient >
+		</defs>
+		
+
+		<!-- 阴影[其实就是滤镜效果],滤镜只允许在一个位置画一个图像，相同名称的滤镜，后面的会把前面的盖掉 -->
+		<!-- <circle cx="500" cy="500" r="40" stroke="#000000" stroke-width="1" fill="#FF0000" filter="url(#f1)"></circle> -->
+		
+		<!-- 滤镜：高斯模糊 -->
+		<!-- <circle cx="50" cy="50" r="40" stroke="#000000" stroke-width="1" fill="#FF0000" filter="url(#gauss)"></circle> -->
+		
+		<!--线性渐变： rx 属性定义水平半径,ry 属性定义垂直半径 ;cx,cy是原点-->
+		<!-- <ellipse cx="400" cy="200" rx="100" ry="50" stroke-width="1" fill="url(#linear)" stroke="#000000"  ></ellipse> -->
+		
+		<!-- 放射性渐变 -->
+		<!-- <circle cx="200" cy="200" r="100" stroke="#000000" stroke-width="1" fill="url(#radial)" ></circle> -->
+		
+
+
+
+		<!--*************************************** 简易图像demo start ***************************************-->
+
+		<!-- 矩形 ：xy表示矩形左上角的点 ， width=宽，height=高 fill=填充颜色，stroke=线条颜色，stroke-width=线宽-->
+		<!-- <rect x="10" y="10" stroke="#000" width="50" height="100"></rect> -->
 	
-	<!-- rx 属性定义水平半径,ry 属性定义垂直半径 ;cx,cy是原点-->
-	<!-- <ellipse cx="400" cy="200" rx="100" ry="50" stroke-width="1" fill="#FF0000" stroke="#000000" ></ellipse> -->
+		<!-- 圆形 cx=圆形的x值，cy=圆心的y值，r=半径-->
+		<!-- <circle cx="150" cy="60" r="50" stroke="#000000" stroke-width="1" fill="#f00" ></circle> -->
+		
+		<!-- 椭圆 cx=圆形的x值，cy=圆心的y值，rx=x轴方向的半径，ry=y轴方向的半径 -->
+		<!-- <ellipse cx="300" cy="60" rx="50" ry="30" stroke-width="1" stroke="#000000" fill="#ff0000" ></ellipse> -->
 
-	<!-- <line x1="500" y1="10" x2="100" y2="100" stroke-width="1" stroke="#000"></line> -->
-	
-	<!-- 多边形，大于等于三条边的图像 -->
-	<!-- <polygon points="220,100 300,210 170,250 123,234" stroke="#000" fill="#FF0000"></polygon> -->
-	
-	<!-- 折线，可以不填充任何东西，也可以填充 -->
-	<!-- <polyline points="0,0 0,20 20,20 20,40 40,40 40,60"  stroke="#000" fill="none"></polyline> -->
-	
-	<!-- 路径，可以实现上面所有的功能，但是一般只是写不规则的功能，通常使用svg编辑器（在线编辑器地址http://editor.method.ac/）来写path，直接生成对应的图像 -->
-	<!-- 专业svg编辑工具：SVGDeveloper -->
-	<path class="svg-path"  stroke="#ff0000" stroke-width="2" d="M19,79.40361445783132L85.08333333333333,77.43373493975903L151.16666666666666,72.4578313253012L217.25,70.37349397590361L283.3333333333333,70.42771084337349L349.41666666666663,63.066265060240966L415.5,53.16265060240963L481.5833333333333,51.421686746987945L547.6666666666666,49.46385542168676L613.75,49.15662650602408L679.8333333333333,46.481927710843365L745.9166666666666,45.64457831325302" fill="none" ></path>
+		<!-- 直线 x1=起点x值，y1=起点y值，x2=终点x值，y2=终点y值-->
+		<!-- <line x1="400" y1="100" x2="500" y2="20" stroke-width="1" stroke="#000"></line> -->
+		
+		
+		<!-- 多边形，大于等于三条边的图像 ； points =折现上的各个点，每个点用空格隔开，按照点的顺序依次连线-->
+		<!-- <polygon points="220,150 300,210 170,250 123,234" stroke="#000" fill="#FF0000"></polygon> -->
+		
+		<!-- 折线，可以不填充任何东西，也可以填充；points=多边形的各个点，每个点用空格隔开，按照点的顺序依次连线，起点和终点也连线 -->
+		<!-- <polyline points="400,200 550,200 400,300"  stroke="#000" fill="none"></polyline> -->
+		
+		<!-- 路径，可以实现上面所有的功能 -->
+		<!-- 专业svg编辑工具：SVGDeveloper ；在线编辑器地址http://editor.method.ac/-->
 
-	<!-- svg编辑器工具集合：  https://www.linuxidc.com/Linux/2015-08/121933.htm -->
-</svg>
+		<!-- 画圆和椭圆参数 d=“rx ry x-axis-rotation large-arc-flag sweep-flag x y” 
+			rx：x轴半径
+			ry：y轴半径
+			x-axis-rotation：此段弧所在的椭圆的 x 轴与水平方向的夹角
+			large-arc-flag：1表示大角度弧线，0表示小角度弧线
+			sweep-flag ：1表示从起点到终点是顺时针方向画弧，0表示逆时针方向
+			x：终点的x
+			y：终点的y
+		-->
 
-<!-- 如何把svg嵌入html
-1.<img>链接方式引用 :最简单
-2.<a>链接方式引用
-3.CSS的background属性引用
-4.<embed> :推荐
-5.<object>
-6.<iframe> -->
+		
+		<!--第三个参数 x-axis-rotation -->
+		<!-- <path   stroke="#FFBB00" stroke-width="2" d="M600 400 A80 40 0 1 0 600 500 Z" fill="none" ></path> -->
+	    <!-- <path  stroke="#0B00E0" stroke-width="2" d="M600 400 A80 40 80 1 0 600 500 Z" fill="none" ></path> -->
+
+		<!--第四个参数 large-arc-flag -->
+		<!-- <path  stroke="#000000" fill="#000000" stroke-width="2" d="M400 400 A80 80 0 1 0 400 500 Z"  ></path> -->
+		<!-- <path   stroke="#ff0000" fill="#ff0000" stroke-width="2" d="M400 400 A80 80 0 0 0 400 500 Z"  ></path> -->
+		
+		<!--第五个参数 large-arc-flag -->
+		<!-- <path   stroke="#000000"  stroke-width="2" d="M800 800 A80 80 1 1 1 800 700 " fill="none" ></path> -->
+		<!-- <path   stroke="#ff0000"  stroke-width="2" d="M800 800 A80 80 1 1 0 800 700 " fill="none" ></path> -->
+		
+		
+		<!-- 画圆 -->
+		<!-- <path   stroke="#0B00E0" stroke-width="2" d="M100 700 A80 80 0 1 0 100 699 Z" fill="none" ></path> -->
+		
+		<!-- 画椭圆 -->
+		<!-- <path   stroke="#0B00E0" stroke-width="2" d="M100 700 A80 40 0 1 0 100 699 Z" fill="none" ></path> -->
+
+		<!-- 二次贝塞尔曲线 Cx1 y1 x2 y2 x y -->
+		<!-- <path   stroke="#FF0000" stroke-width="2" d="M300 700 Q500 900 600 700" fill="none" ></path> -->
+
+		<!-- 三次贝塞尔曲线 Cx1 y1 x2 y2 x y -->
+		<!-- <path   stroke="#0B00E0" stroke-width="2" d="M300 700 C400 300 500 900 600 700" fill="none" ></path> -->
+		
+		<!--*************************************** 简易图像demo end ***************************************-->
+	</svg>
+
+
 
 <!-- 形状元素
 矩形 <rect>
@@ -44,3 +172,6 @@
 
 
 <!-- 动画交互，svg -->
+
+
+

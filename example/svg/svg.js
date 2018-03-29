@@ -1,19 +1,3 @@
-// (function(){
-// 	document.addEventListener("DOMContentLoaded",function(){
-// 		var ele=document.querySelector(".svg-path");
-// 		ele.addEventListener("animationend",function(e){
-// 			ele.setAttribute("stroke-dashoffset",0);//animation的话结束的偏移量设置为0有bug，曲线会消失
-// 		})
-// 		ele.addEventListener("transitionend",function(e){/*transtion动画结束*/
-// 			console.log(e);
-// 		})
-// 		var len=ele.getTotalLength();
-// 		ele.setAttribute("stroke-dasharray",len);//这是让虚线里的每个小线段长度为20px
-// 		ele.setAttribute("stroke-dashoffset",len);//dash模式到路径开始的偏移距离,其实就是左加右减，728表示dash线初始位置是向左平移728单位
-// 	});
-		
-// })();
-
 
 /*auther:jeffreyChen
  *@description:svg折线图
@@ -257,7 +241,8 @@ Chart.prototype={
     createPath:function(){
         var ele=this.create({
             type: "path",//创建的是path元素
-            style: "fill:none;stroke:#000",//path元素的style
+            class:this.options.className,
+            style: "fill:none;stroke:#FF0000",//path元素的style
             d:this.getPathData(this.options.data)//path元素的元数据
         });
         this.options.wrapper.appendChild(ele);
@@ -273,7 +258,8 @@ Chart.prototype={
                 cx:unit.x,
                 cy:unit.y,
                 r:self.options.circleRadius,
-                stroke:"#000"
+                stroke:"#FF0000",
+                fill:"#FF0000"
             });
             ele.innerHTML=unit.text;
             self.options.wrapper.appendChild(ele);
@@ -537,53 +523,3 @@ Chart.prototype={
     }
     /********************通用的基础函数 end*********************/
 }
-
-new Chart({
-    //请求回来的原始数据
-    originData:[{
-            date: "07-01",
-            delMinutes: "10",
-            isNoData:false
-        }, //第一个肯定是原点
-        {
-            date: "07-02",
-            delMinutes: "5",
-            isNoData:false//标记是否需要计入平均值，因为有的值不需要计入平均值
-        }, {
-            date: "07-03",
-            delMinutes: "30",
-            isNoData:false
-        }, {
-            date: "07-04",
-            delMinutes: "5",
-            isNoData:false
-        }, {
-            date: "07-05",
-            delMinutes: "-10",
-            isNoData:false
-        }, {
-            date: "07-06",
-            delMinutes: "2",
-            isNoData:false
-        }, {
-            date: "07-07",
-            delMinutes: "6",
-            isNoData:false
-        }
-    ],
-    //canvas需要插入的dom元素（备注，才层元素的宽高要设置好，canvas才能画出来），画布内的具体内容宽高设置，需要在defaults中手动设置
-    wrapper:document.querySelector(".svg-container"),
-
-    //画完以后的接口
-    afterDrawing:function(ele,callback){
-        ele.addEventListener("animationend",function(e){
-         ele.setAttribute("stroke-dashoffset",0);//animation的话结束的偏移量设置为0有bug，曲线会消失,所以得重新设置
-         callback();
-        });
-        var str=ele.getAttribute("class")||" ";
-        ele.setAttribute("class",str+"svg-animate");
-        var len=ele.getTotalLength();
-        ele.setAttribute("stroke-dasharray",len);//这是让虚线里的每个小线段长度为20px
-        ele.setAttribute("stroke-dashoffset",len);//dash模式到路径开始的偏移距离,其实就是左加右减，728表示dash线初始位置是向左平移728单位
-    }
-});

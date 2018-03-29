@@ -436,7 +436,7 @@ Schedule.prototype= {
 
         ctx.lineWidth = "3";
         ctx.strokeStyle = "#fd4a2c";
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = "#fd4a2c";
         if (data && data.length) {
             for (var i = 0, len = data.length; i < len; i++) {
                 ctx.beginPath();

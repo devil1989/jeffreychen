@@ -1,5 +1,6 @@
+
 .svg-container{
-	height: 1000px;
+	height: 100%;
 }
 .svg-animate{/*svg虚线设置*/
 	animation: dash 4s linear;
