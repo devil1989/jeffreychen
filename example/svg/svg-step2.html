@@ -1,0 +1,60 @@
+<!-- xml版本1.0，standalone 属性！该属性规定此 SVG 文件是否是“独立的”，或含有对外部文件的引用 
+	 standalone="no" 意味着 SVG 文档会引用一个外部文件， 在这里，是 DTD 文件 -->
+<!-- <?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> -->
+<!-- 该 DTD 位于 W3C，含有所有允许的 SVG 元素 -->
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>step2:Path</title>
+</head>
+<body style="background-color: #e3e3e3">
+	
+	<!-- 如何把svg嵌入html
+		1.<img>链接方式引用 :最简单
+		2.<a>链接方式引用
+		3.CSS的background属性引用
+		4.<embed> :推荐
+		5.<object>
+		6.<iframe> 
+	-->
+
+	<!-- 内联SVG -->
+	<svg class="svg-container" version="1.1" width="100%" height="1000px" xmlns="http://www.w3.org/2000/svg">
+		
+		<!--第三个参数 x-axis-rotation -->
+		<path   stroke="#FFBB00" stroke-width="2" d="M600 400 A80 40 0 1 0 600 500 Z" fill="none" ></path>
+	    <path  stroke="#0B00E0" stroke-width="2" d="M600 400 A80 40 80 1 0 600 500 Z" fill="none" ></path>
+
+		<!--第四个参数 large-arc-flag -->
+		<path  stroke="#000000" fill="#000000" stroke-width="2" d="M400 400 A80 80 0 1 0 400 500 Z"  ></path>
+		<path   stroke="#ff0000" fill="#ff0000" stroke-width="2" d="M400 400 A80 80 0 0 0 400 500 Z"  ></path>
+		
+		<!--第五个参数 large-arc-flag -->
+		<path   stroke="#000000"  stroke-width="2" d="M800 800 A80 80 1 1 1 800 700 " fill="none" ></path>
+		<path   stroke="#ff0000"  stroke-width="2" d="M800 800 A80 80 1 1 0 800 700 " fill="none" ></path>
+		
+		
+		<!-- 画圆 -->
+		<path   stroke="#0B00E0" stroke-width="2" d="M100 700 A80 80 0 1 0 100 699 Z" fill="none" ></path>
+		
+		<!-- 画椭圆 -->
+		<path   stroke="#0B00E0" stroke-width="2" d="M100 700 A80 40 0 1 0 100 699 Z" fill="none" ></path>
+
+		<!-- 二次贝塞尔曲线 Cx1 y1 x2 y2 x y -->
+		<path   stroke="#FF0000" stroke-width="2" d="M300 700 Q500 900 600 700" fill="none" ></path>
+
+		<!-- 三次贝塞尔曲线 Cx1 y1 x2 y2 x y -->
+		<path   stroke="#0B00E0" stroke-width="2" d="M300 700 C400 300 500 900 600 700" fill="none" ></path>
+
+	</svg>
+
+</body>
+
+</html>
+
+

@@ -1,0 +1,140 @@
+<!-- xml版本1.0，standalone 属性！该属性规定此 SVG 文件是否是“独立的”，或含有对外部文件的引用 
+	 standalone="no" 意味着 SVG 文档会引用一个外部文件， 在这里，是 DTD 文件 -->
+<!-- <?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> -->
+<!-- 该 DTD 位于 W3C，含有所有允许的 SVG 元素 -->
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>滤镜+渐变</title>
+</head>
+<body style="background-color: #e3e3e3">
+	
+	<!-- 如何把svg嵌入html
+		1.<img>链接方式引用 :最简单
+		2.<a>链接方式引用
+		3.CSS的background属性引用
+		4.<embed> :推荐
+		5.<object>
+		6.<iframe> 
+	-->
+
+	<!-- 内联SVG -->
+	<svg class="svg-container" version="1.1" width="100%" height="1000"  xmlns="http://www.w3.org/2000/svg">
+		
+		<!-- defs:引用的元素容器,让元素可以重复使用 -->
+		<defs>
+
+			<!-- 滤镜：制作高斯模糊 -->
+			<filter id="gauss">
+				<!-- stdDeviation:模糊度 -->
+				<feGaussianBlur in="SourceGraphic" stdDeviation="2" ></feGaussianBlur>
+			</filter>
+
+
+			<!-- 滤镜：图像合成+平移 -->
+			<filter id="f1" x="0" y="0" width="200%" height="200%">
+
+				<!-- in="SourceGraphic"这个部分定义了由整个图像创建效果 ，result表示输出值，可以在其他滤镜中作为in来输入-->			
+				<feOffset result="offOut" in="SourceAlpha" dx="20" dy="20" /> <!-- 偏移只能定义一个 ,定义多个无效，用于制作偏移的阴影-->
+				<feOffset result="offOut2" in="SourceAlpha" dx="50" dy="70" />
+				<feOffset result="offOut3" in="SourceGraphic" dx="60" dy="40" />
+				<feGaussianBlur result="gauss" in="offOut" stdDeviation="8" ></feGaussianBlur><!-- 高斯模糊 -->
+				<!-- SVG滤镜。相对其当前位置移动图像，并定义偏移量，dx是x轴平移 -->
+				
+
+				<!-- 融合：可以使用多个元素融合，但是他和feBlend滤镜只能同时生效一个，后面的生效 -->
+				<feMerge result="s">
+					<feMergeNode in="offOut" />
+            		<feMergeNode in="offOut2" />
+            		<feMergeNode in="offOut3" />
+				</feMerge>
+
+				<!-- in="标识为给定的滤镜原始输入：SourceGraphic | SourceAlpha | BackgroundImage | BackgroundAlpha | FillPaint | StrokePaint  -->			
+				<!-- in2="标识为给定的滤镜混合值：SourceGraphic | SourceAlpha | BackgroundImage | BackgroundAlpha | FillPaint | StrokePaint  -->	
+					<!-- 
+			        SourceGraphic ：这个值代表使用当前的图形元素作为操作的输入,就是源图形。
+					SourceAlpha ：这个值代表使用当前图形元素的Alpha值作为操作的输入：就是黑色图像。
+					BackgroundImage ：这个值代表使用当前的背景截图作为操作的输入。
+					BackgroundAlpha ：这个值代表使用当前的背景截图的Alpha值作为操作的输入。
+					FillPaint ：这个值使用当前图形元素的fill属性的值作为操作的输入。
+					StrokePaint ：这个值使用当前图形元素的stroke属性的值作为操作的输入。 
+					-->
+
+				<!-- mode="图像混合模式：normal|multiply|screen|darken|lighten" -->	
+					<!-- 
+					normal：正常混合，in2的z-index比in小
+					multiply： 正片叠底;混合了前景和背景的颜色，最终颜色比原先的都暗
+					screen: 滤色；把前景和背景图的颜色先反过来，然后混合
+					darken:变暗 （暗的在前）
+					lighten:变亮 （亮的在前）
+					-->
+				<!-- （in="SourceGraphic" ）表示按照原图画一个图像，（in2="gauss"）表示按照gauss【就是上面的feGaussianBlur result="gauss"】画一个图像，然后混合 -->
+				<feBlend result="a" in="SourceGraphic" in2="gauss" mode="normal" />
+			</filter>
+
+
+			<!-- x1、x2、y1、y2 属性可定义渐变的开始和结束位置,只能2个点,x1="0%" y1="50%"  x2="100%" y2="50%"是横向渐变 -->
+			<linearGradient id="linear" x1="0%" y1="50%"  x2="100%" y2="50%">
+				<!-- stop用于定义渐变颜色，可以多个，慢慢渐变过去 -->
+				<stop offset="0%" style="stop-color:rgb(0,34,255) ; stop-opacity:1"></stop>
+				<stop offset="50%" style="stop-color:rgb(255,0,170) ; stop-opacity:opacity:1"></stop>
+				<stop offset="100%" style="stop-color:rgb(100,255,0) ; stop-opacity:opacity:1"></stop>
+			</linearGradient>
+			
+			<!-- cx,cy和r属性定义了辐射的最大圆(外圈),fx和fy属性定义了辐射的焦点 -->
+			<radialGradient  id="radial" cx="50%" cy="50%" r="50%" fx="35%" fy="50%" >
+				<!-- stop用于定义渐变颜色，可以多个，按照固定的辐射方向和颜色,慢慢渐变过去 -->
+				<stop offset="0%" style="stop-color:rgb(0,0,0,0);stop-opacity:opacity:1"></stop><!-- 第一个stop的颜色是cx,cy点的颜色 -->
+				<stop offset="100%" style="stop-color:#000;stop-opacity:opacity:1"></stop><!-- 最后一个stop的颜色是fx,fy点的颜色 -->
+			</radialGradient >
+		</defs>
+		
+		
+		<!-- 滤镜：高斯模糊 -->
+		<circle cx="100" cy="100" r="40" stroke="#000000" stroke-width="1" fill="#FF0000" filter="url(#gauss)"></circle>
+
+		<!-- 阴影[其实就是滤镜效果],滤镜只允许在一个位置画一个图像，相同名称的滤镜，后面的会把前面的盖掉 -->
+		<circle cx="400" cy="150" r="40" stroke="none" stroke-width="1" fill="#FF0000" filter="url(#f1)"></circle>
+		
+		
+		
+		<!--线性渐变： rx 属性定义水平半径,ry 属性定义垂直半径 ;cx,cy是原点-->
+		<ellipse cx="200" cy="500" rx="100" ry="50" stroke-width="1" fill="url(#linear)" stroke="#000000"  ></ellipse>
+		
+		<!-- 放射性渐变 -->
+		<circle cx="500" cy="500" r="100" stroke="#000000" stroke-width="1" fill="url(#radial)" ></circle>
+		
+
+
+
+		<!-- 矩形 ：xy表示矩形左上角的点 ， width=宽，height=高 fill=填充颜色，stroke=线条颜色，stroke-width=线宽-->
+		<!-- <rect class="hide-step1 step1" x="10" y="10" stroke="#000" width="50" height="100"></rect> -->
+	
+		<!-- 圆形 cx=圆形的x值，cy=圆心的y值，r=半径-->
+		<!-- <circle  class="hide-step1 step1" cx="150" cy="60" r="50" stroke="#000000" stroke-width="1" fill="#f00" ></circle> -->
+		
+		<!-- 椭圆 cx=圆形的x值，cy=圆心的y值，rx=x轴方向的半径，ry=y轴方向的半径 -->
+		<!-- <ellipse  class="hide-step1 step1" cx="300" cy="60" rx="50" ry="30" stroke-width="1" stroke="#000000" fill="#ff0000" ></ellipse> -->
+
+		<!-- 直线 x1=起点x值，y1=起点y值，x2=终点x值，y2=终点y值-->
+		<!-- <line  class="hide-step1 step1" x1="400" y1="100" x2="500" y2="20" stroke-width="1" stroke="#000"></line> -->
+		
+		
+		<!-- 多边形，大于等于三条边的图像 ； points =折现上的各个点，每个点用空格隔开，按照点的顺序依次连线-->
+		<!-- <polygon  class="hide-step1 step1" points="220,150 300,210 170,250 123,234" stroke="#000" fill="#FF0000"></polygon> -->
+		
+		<!-- 折线，可以不填充任何东西，也可以填充；points=多边形的各个点，每个点用空格隔开，按照点的顺序依次连线，起点和终点也连线 -->
+		<!-- <polyline class="hide-step1 step1" points="400,200 550,200 400,300"  stroke="#000" fill="none"></polyline> -->
+
+	</svg>
+
+</body>
+
+</html>
+
+

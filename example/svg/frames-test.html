@@ -1,0 +1,60 @@
+<!-- xml版本1.0，standalone 属性！该属性规定此 SVG 文件是否是“独立的”，或含有对外部文件的引用 
+	 standalone="no" 意味着 SVG 文档会引用一个外部文件， 在这里，是 DTD 文件 -->
+<!-- <?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> -->
+<!-- 该 DTD 位于 W3C，含有所有允许的 SVG 元素 -->
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<style type="text/css">
+		#box{
+			height: 100px;
+			width: 100px;
+		}
+	</style>
+</head>
+<body style="background-color: #e3e3e3">
+
+	<div id="box" style="border:1px solid #000;"></div>
+
+</body>
+<script type="text/javascript">
+	
+
+		
+//shift+滚轮展开frames看具体帧数
+(function(){
+	var box=document.getElementById("box");
+	var LoopNum=21;
+	var i=0;
+	
+	setInterval(function(){
+		if(i<LoopNum){
+			console.log(i);
+			var int=1;
+			box.style.width=(i+int)+"px";
+			i=i+int;
+		}
+	},2);
+
+	//单帧计算量不大情况下，基本不丢帧
+	// requestAnimationFrame(function get (){
+	// 	if(i<LoopNum){
+	// 		console.log(i);
+	// 		var int=1;
+	// 		box.style.width=(i+int)+"px";
+	// 		i=i+int;
+	// 		requestAnimationFrame(get);
+	// 	}
+	// });
+})();
+	
+</script>
+</html>
+
+

@@ -11,7 +11,6 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Document</title>
-	<!-- <link rel="stylesheet" type="text/css" href="./svg.css" /> -->
 	<style type="text/css">
 		#box{
 			height: 100px;
@@ -21,10 +20,9 @@
 </head>
 <body style="background-color: #e3e3e3">
 
-	<div id="box" style="border:1px solid #000;"></div>
 	<!-- pluginspage表示下载插件的url -->
 	<!-- embed标签支持使用脚本，一般都用这个标签来嵌入svg -->
-	<!-- <embed class="svg-container-node" src="./demo.svg" type="image/svg+xml" style="height: 1000px; width: 100%;" /> -->
+	<embed class="svg-container-node" src="./demo.svg" type="image/svg+xml" style="height: 1000px; width: 100%;" />
 	
 	
 	<!-- 如何把svg嵌入html
@@ -44,177 +42,90 @@
 <script type="text/javascript">
 	
 
-	//纯js数据计算主要消耗cpu
-	function testCPU() {
-	    var LoopNum=400000;
-	    for (var i = 0; i <= LoopNum; i++) {
 
-	        (function(n){
-	            setTimeout(function() {
-	                if((n%LoopNum)===0){
-	                    console.log(n);
-	                }
-	                // document.querySelector(".svg-container").style.opacity = 0.000005 * n;
-	                // document.querySelector(".svg-container").style.opacity=1;
-	            }, 16)
-	        })(i);
-	    }
-	}
+document.querySelector(".svg-container-node").addEventListener("load",function(){
+	var svgDOM=document.querySelector(".svg-container-node").getSVGDocument();
+	window.svg=svgDOM;
+	window.showChart=true;
+	// window.showAnimation=true;
 
 
 
-	// function testGPUReflow(svgDOM) {
-	// 	var LoopNum=400000;
-	//     for (i = 0; i <= 400000; i++) {
+	if(window.showChart){
+		new Chart({
+			className:"svg-path",//折线的className
+		    //请求回来的原始数据
+		    originData:[{
+		            date: "07-01",
+		            delMinutes: "10",
+		            isNoData:false
+		        }, //第一个肯定是原点
+		        {
+		            date: "07-02",
+		            delMinutes: "5",
+		            isNoData:false//标记是否需要计入平均值，因为有的值不需要计入平均值
+		        }, {
+		            date: "07-03",
+		            delMinutes: "30",
+		            isNoData:false
+		        }, {
+		            date: "07-04",
+		            delMinutes: "5",
+		            isNoData:false
+		        }, {
+		            date: "07-05",
+		            delMinutes: "-10",
+		            isNoData:false
+		        }, {
+		            date: "07-06",
+		            delMinutes: "2",
+		            isNoData:false
+		        }, {
+		            date: "07-07",
+		            delMinutes: "6",
+		            isNoData:false
+		        }
+		    ],
 
-	//         (function(n){
-	//             setTimeout(function() {
-	//                 if((n%100)===0){
-	//                     console.log(n);
-	//                 }
-	//                 svgDOM.querySelector(".svg-container").setAttribute("width",n*0.005);
-	//             }, 16)
-	//         })(i);
-	//     }
-	// }
+		    //需要正常的http协议，如果是本地file加载html，会导致问题
+		    wrapper:svgDOM.querySelector(".svg-container"),//svg文件需要通过getSVGDocument方法获取
+		    // wrapper:document.querySelector(".svg-container"),
 
+		    //画完以后的接口
+		    afterDrawing:function(ele,callback){
 
-	//图像重绘，消耗GPU+CPU
-	function testGPURepaint(svgDOM){
-	    var LoopNum=400000;
-	    for ( var i = 0; i <= LoopNum; i++) {
+		    	if(!window.showAnimation){
+		    		callback();
+		    		return
+		    	}
 
-	        (function(n){
-	            setTimeout(function() {
-	                if((n%LoopNum)===0){
-	                    console.log(n);
-	                }
-	                svg.querySelector(".svg-container").style.opacity = 0.0000025 * n;
-	            }, 16)
-	        })(i);
-	    }
-	}
+				// var ele=svgDOM.querySelector(".svg-path");
+				ele.addEventListener("animationend",function(e){
+					ele.setAttribute("stroke-dashoffset",0);//animation的话结束的偏移量设置为0有bug，曲线会消失
+					callback();
+				})
+				ele.addEventListener("transitionend",function(e){/*transtion动画结束*/
+					console.log(e);
+				})
+				var str=ele.getAttribute("class")||" ";
+		        ele.setAttribute("class",str+" svg-animate");
+				var len=ele.getTotalLength();
+				ele.setAttribute("stroke-dasharray",len);//这是让虚线里的每个小线段长度为20px
+				ele.setAttribute("stroke-dashoffset",len);//dash模式到路径开始的偏移距离,其实就是左加右减，728表示dash线初始位置是向左平移728单位
 
-	if(false){
-		document.querySelector(".svg-container-node").addEventListener("load",function(){
-			var svgDOM=document.querySelector(".svg-container-node").getSVGDocument();
-			window.svg=svgDOM;
-			// window.testsCPU=true;
-			// window.testsGPU=true;
-			window.testReflow=true;
-			// window.showChart=true;
-			// window.showAnimation=true;
-
-
-			if(window.testsGPU||window.testsCPU){
-				window.showChart=false;
-				window.showAnimation=false;
-			}
-
-
-			if(window.showChart){
-				new Chart({
-					className:"svg-path",//折线的className
-				    //请求回来的原始数据
-				    originData:[{
-				            date: "07-01",
-				            delMinutes: "10",
-				            isNoData:false
-				        }, //第一个肯定是原点
-				        {
-				            date: "07-02",
-				            delMinutes: "5",
-				            isNoData:false//标记是否需要计入平均值，因为有的值不需要计入平均值
-				        }, {
-				            date: "07-03",
-				            delMinutes: "30",
-				            isNoData:false
-				        }, {
-				            date: "07-04",
-				            delMinutes: "5",
-				            isNoData:false
-				        }, {
-				            date: "07-05",
-				            delMinutes: "-10",
-				            isNoData:false
-				        }, {
-				            date: "07-06",
-				            delMinutes: "2",
-				            isNoData:false
-				        }, {
-				            date: "07-07",
-				            delMinutes: "6",
-				            isNoData:false
-				        }
-				    ],
-
-				    //需要正常的http协议，如果是本地file加载html，会导致问题
-				    wrapper:svgDOM.querySelector(".svg-container"),//svg文件需要通过getSVGDocument方法获取
-				    // wrapper:document.querySelector(".svg-container"),
-
-				    //画完以后的接口
-				    afterDrawing:function(ele,callback){
-
-				    	if(!window.showAnimation){
-				    		callback();
-				    		return
-				    	}
-
-						// var ele=svgDOM.querySelector(".svg-path");
-						ele.addEventListener("animationend",function(e){
-							ele.setAttribute("stroke-dashoffset",0);//animation的话结束的偏移量设置为0有bug，曲线会消失
-							callback();
-						})
-						ele.addEventListener("transitionend",function(e){/*transtion动画结束*/
-							console.log(e);
-						})
-						var str=ele.getAttribute("class")||" ";
-				        ele.setAttribute("class",str+" svg-animate");
-						var len=ele.getTotalLength();
-						ele.setAttribute("stroke-dasharray",len);//这是让虚线里的每个小线段长度为20px
-						ele.setAttribute("stroke-dashoffset",len);//dash模式到路径开始的偏移距离,其实就是左加右减，728表示dash线初始位置是向左平移728单位
-
-				    }
-				});
-			}
-
-			
-			
-
-			window.testsCPU&&testCPU();
-			window.testsGPU&&testGPURepaint(svgDOM);//GPU:36%；图像减半：GPU22%
-			// window.testReflow&&testGPUReflow(svgDOM);
+		    }
 		});
 	}
 
+	
+	
+
+	window.testsCPU&&testCPU();
+	window.testsGPU&&testGPURepaint(svgDOM);
+});
+
 
 		
-
-(function(){
-	var box=document.getElementById("box");
-	var LoopNum=21;
-	var i=0;
-	
-	setInterval(function(){
-		if(i<LoopNum){
-			console.log(i);
-			var int=1;
-			box.style.width=(i+int)+"px";
-			i=i+int;
-		}
-	},16);
-
-	//单帧计算量不大情况下，基本不丢帧
-	// requestAnimationFrame(function get (){
-	// 	if(i<LoopNum){
-	// 		console.log(i);
-	// 		var int=1;
-	// 		box.style.width=(i+int)+"px";
-	// 		i=i+int;
-	// 		requestAnimationFrame(get);
-	// 	}
-	// });
-})();
 	
 </script>
 </html>

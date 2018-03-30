@@ -1,0 +1,60 @@
+<!-- xml版本1.0，standalone 属性！该属性规定此 SVG 文件是否是“独立的”，或含有对外部文件的引用 
+	 standalone="no" 意味着 SVG 文档会引用一个外部文件， 在这里，是 DTD 文件 -->
+<!-- <?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> -->
+<!-- 该 DTD 位于 W3C，含有所有允许的 SVG 元素 -->
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>step1：基础图形</title>
+</head>
+<body style="background-color: #e3e3e3">
+	
+	<!-- 如何把svg嵌入html
+		1.<img>链接方式引用 :最简单
+		2.<a>链接方式引用
+		3.CSS的background属性引用
+		4.<embed> :推荐
+		5.<object>
+		6.<iframe> 
+	-->
+
+	<!-- 内联SVG -->
+	<svg class="svg-container" version="1.1" width="100%" height="1000px" xmlns="http://www.w3.org/2000/svg">
+
+		
+
+
+
+		<!--*************************************** 简易图像demo start ***************************************-->
+
+		<!-- 矩形 ：xy表示矩形左上角的点 ， width=宽，height=高 fill=填充颜色，stroke=线条颜色，stroke-width=线宽-->
+		<rect class="hide-step1 step1" x="10" y="10" rx="10" ry="10" stroke="#000" width="50" height="100"></rect>
+	
+		<!-- 圆形 cx=圆形的x值，cy=圆心的y值，r=半径-->
+		<circle  class="hide-step1 step1" cx="150" cy="60" r="50" stroke="#000000" stroke-width="1" fill="#f00" ></circle>
+		
+		<!-- 椭圆 cx=圆形的x值，cy=圆心的y值，rx=x轴方向的半径，ry=y轴方向的半径 -->
+		<ellipse  class="hide-step1 step1" cx="300" cy="60" rx="50" ry="30" stroke-width="1" stroke="#000000" fill="#ff0000" ></ellipse>
+
+		<!-- 直线 x1=起点x值，y1=起点y值，x2=终点x值，y2=终点y值-->
+		<line  class="hide-step1 step1" x1="400" y1="100" x2="500" y2="20" stroke-width="1" stroke="#000"></line>
+		
+		
+		<!-- 多边形，大于等于三条边的图像 ； points =折现上的各个点，每个点用空格隔开，按照点的顺序依次连线-->
+		<polygon  class="hide-step1 step1" points="220,150 300,210 170,250 123,234" stroke="#000" fill="#FF0000"></polygon>
+		
+		<!-- 折线，可以不填充任何东西，也可以填充；points=多边形的各个点，每个点用空格隔开，按照点的顺序依次连线，起点和终点也连线 -->
+		<polyline class="hide-step1 step1" points="400,200 550,200 400,300"  stroke="#000" fill="none"></polyline>
+		
+	</svg>
+
+</body>
+
+</html>
+
+

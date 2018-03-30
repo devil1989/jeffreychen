@@ -1,0 +1,90 @@
+<!-- xml版本1.0，standalone 属性！该属性规定此 SVG 文件是否是“独立的”，或含有对外部文件的引用 
+	 standalone="no" 意味着 SVG 文档会引用一个外部文件， 在这里，是 DTD 文件 -->
+<!-- <?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> -->
+<!-- 该 DTD 位于 W3C，含有所有允许的 SVG 元素 -->
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<style type="text/css">
+		#box{
+			margin: 10px;
+			float: left;
+			height: 100px;
+			width: 100px;
+			background-color: #ff0000;
+		}
+		.normal-box{
+			margin: 10px;
+			float: left;
+			height:100px;width:100px;border: 1px solid #000; background-color: #000
+		}
+	</style>
+</head>
+<body style="background-color: #e3e3e3">
+	<div class="normal-box"></div>
+	<div id="box" style="border:1px solid #000;"></div>
+	<div class="normal-box"></div>
+	<div class="normal-box"></div>
+	<div class="normal-box"></div>
+	<div class="normal-box"></div>
+	<div class="normal-box"></div>
+	<div class="normal-box"></div>
+</body>
+
+<script type="text/javascript">
+	//纯js数据计算主要消耗cpu
+	function testCPU() {
+	    var LoopNum=2001,i=0,int=1,k;
+	    var ele=document.querySelector("#box");
+	    var n=1/LoopNum;
+	    for (var i = 0; i < LoopNum; i++) {
+	    	for (var j = 0; j < LoopNum; j++) {
+	    		for (var k = 0; k < LoopNum; k++) {
+	    			for (var l = 0; l < LoopNum; l++) {
+	    				k=l+k+j+i;
+	    			}
+	    		}
+	    	}
+	    	if(i%200===0){
+		    	console.log("GPU执行完成度"+Math.ceil(i*100/LoopNum)+"%");
+		    }
+	    }
+	}
+
+	//图像重绘，消耗GPU+CPU
+	function testGPURepaint(){
+	    var LoopNum=2001,i=0,int=1,k;
+	    var ele=document.querySelector("#box");
+	    var n=1/LoopNum;
+		
+		setInterval(function(){
+			
+			if(i<LoopNum){
+				if(i%200===0){
+					console.log("GPU执行完成度"+Math.ceil(i*100/LoopNum)+"%");
+				}
+				// box.style.opacity=i*n;
+				box.style.width=(i+int)+"px";
+				i=i+int;
+			}
+		},1);
+	}
+
+	setTimeout(function(){
+		testCPU();
+		testGPURepaint();
+	},1000);
+
+
+		
+	
+</script>
+</html>
+
+
